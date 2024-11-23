@@ -137,6 +137,7 @@ void loop()
       Check_distance();
       ready = false;
       buttonPressed_2 = false;
+      Serial.println("buttonPressed_2");
     }
   }
   else if(buttonPressed_3 && ready == false) // kid 3
@@ -153,6 +154,7 @@ void loop()
       Check_distance();
       ready = false;
       buttonPressed_3 = false;
+      Serial.println("buttonPressed_3");
     }
   }
   else if(buttonPressed_4 && ready == false)  // kid 4
@@ -169,6 +171,7 @@ void loop()
       Check_distance();
       ready = false;
       buttonPressed_4 = false;
+      Serial.println("buttonPressed_4");
     }
   }
 }
