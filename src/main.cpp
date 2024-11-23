@@ -107,7 +107,7 @@ void Check_distance()
 {
   sensor();
   int safety_distance_time = millis();
-  if (distance <= 1000 && (safety_distance_time - millis() >= 5000)) 
+  if (distance <= 1000 && (millis() - safety_distance_time >= 5000)) 
   {
     digitalWrite(bell,1);
   }
@@ -128,7 +128,8 @@ void loop()
     ready = true;
     digitalWrite(relay,0);
     int Wait_time = 1800;
-    if(Wait_time - millis() <= 0)
+    unsigned long ht = millis();
+    if(ht - millis() >= Wait_time)
     {
       //send data
       //LCD
@@ -143,7 +144,8 @@ void loop()
     ready = true;
     digitalWrite(relay,0);
     int Wait_time = 3600;
-    if(Wait_time - millis() <= 0)
+    unsigned long ht = millis();
+    if(ht - millis() >= Wait_time)
     {
       //send data
       //LCD
@@ -158,7 +160,8 @@ void loop()
     ready = true;
     digitalWrite(relay,0);
     int Wait_time = 5400;
-    if(Wait_time - millis() <= 0)
+    unsigned long ht = millis();
+    if(ht - millis() >= Wait_time)
     {
       //send data
       //LCD
