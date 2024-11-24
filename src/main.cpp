@@ -54,14 +54,18 @@ void Check_distance()
   }
 }
 
-void handleButtonPress(uint8_t relayTime)
+void handleButtonPress(uint8_t relayTime, uint8_t i)
 {
   if (!check_time) 
   {
     startMillis = millis();
     check_time = true;
+    setBtReady(i);
+    //Notice
+    Serial.print("Step ");
+    Serial.println(i);
   }
-  Bt_ready = true;
+  
   digitalWrite(relay, 0);  //on relay
   Check_distance();        
   //send data & LCD
@@ -69,9 +73,13 @@ void handleButtonPress(uint8_t relayTime)
   if (millis() - startMillis >= relayTime * 60 * 1000 && check_time == true && check_button_loop == 1) 
   {
     digitalWrite(relay, 1);  //off relay
-    Bt_ready = false;
     check_time = false;
     check_button_loop = 0;
+    resetBtReady();
+    //Notice
+    Serial.print("Done ");
+    Serial.println(i);  
+    Serial.println("------------------------------------------");
   }
 }
 
@@ -81,20 +89,29 @@ void Program()
   {
     buttonPressed_1 = false;
   }
-  else if(buttonPressed_2 && Bt_ready == false) //30 minite
+  else if(buttonPressed_2 && Bt_ready_2 == false) //30 minite
   {
-    handleButtonPress(30);
-    buttonPressed_2 = false;
+    handleButtonPress(30,2);
+    if (!check_time)
+    {
+      buttonPressed_2 = false; 
+    }
   }
-  else if(buttonPressed_3 && Bt_ready == false) //60 minite
+  else if(buttonPressed_3 && Bt_ready_3 == false) //60 minite
   {
-    handleButtonPress(60);
-    buttonPressed_3 = false;
+    handleButtonPress(60,3);
+    if (!check_time)
+    {
+      buttonPressed_3 = false; 
+    }
   }
-  else if(buttonPressed_4 && Bt_ready == false) //90 minite
+  else if(buttonPressed_4 && Bt_ready_4 == false) //90 minite
   {
-    handleButtonPress(90);
-    buttonPressed_4 = false;
+    handleButtonPress(90,4);
+    if (!check_time)
+    {
+      buttonPressed_4 = false; 
+    }
   }
 }
 
