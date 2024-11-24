@@ -60,69 +60,119 @@ void Active()
   {
     buttonPressed_1 = false;
   }
-  else if(buttonPressed_2 && ready == false)  // kid 1
+  else if(buttonPressed_2 && Bt_ready == false)  // kid 1
   {
     if(!check_time)
     {
       startMillis = millis();
       check_time = true;
+      Bt_ready = true;
     }
-    ready = true;
     digitalWrite(relay,0);
-    if((millis() - startMillis >= 30 * 60 *1000) && check_time == true && check_button_loop == 1)
+    Check_distance();
+    //send data & LCD
+
+    if((millis() - startMillis >= 30 * 60 * 1000) && check_time == true && check_button_loop == 1)
     {
       digitalWrite(relay,1); // on relay
-      Check_distance();
-      ready = false;
+      Bt_ready = false;
       check_time = false;
+      check_button_loop = 0;
       buttonPressed_2 = false;
       Serial.println("buttonPressed_2");
-      check_button_loop == 0;
     }
   }
-  else if(buttonPressed_3 && ready == false) // kid 2
+  else if(buttonPressed_3 && Bt_ready == false) // kid 2
   {
     if(!check_time)
     {
       startMillis = millis();
       check_time = true;
+      Bt_ready = true;
     }
-    ready = true;
     digitalWrite(relay,0);
-    if((millis() - startMillis >= 60 * 60 *1000) && check_time == true && check_button_loop == 1)
+    Check_distance();
+    //send data & LCD
+
+    if((millis() - startMillis >= 60 * 60 * 1000) && check_time == true && check_button_loop == 1)
     {
       digitalWrite(relay,1); // on relay
-      Check_distance();
-      ready = false;
+      Bt_ready = false;
       check_time = false;
+      check_button_loop = 0;
       buttonPressed_3 = false;
       Serial.println("buttonPressed_3");
-      check_button_loop == 0;
     }
   }
-  else if(buttonPressed_4 && ready == false)  // kid 3
+  else if(buttonPressed_4 && Bt_ready == false)  // kid 3
   {
     if(!check_time)
     {
       startMillis = millis();
       check_time = true;
+      Bt_ready = true;
     }
-    ready = true;
-    digitalWrite(relay,0);
-    if((millis() - startMillis >= 90 * 60 *1000) && check_time == true && check_button_loop == 1)
+    digitalWrite(relay,0);    // on relay
+    Check_distance();
+    //send data & LCD
+
+    if((millis() - startMillis >= 90 * 60 * 1000) && check_time == true && check_button_loop == 1)
     {
-      digitalWrite(relay,1); // on relay
-      Check_distance();
-      ready = false;
+      digitalWrite(relay,1); // off relay
+      Bt_ready = false;
       check_time = false;
+      check_button_loop = 0;
       buttonPressed_4 = false;
       Serial.println("buttonPressed_4");
-      check_button_loop == 0;
     }
+  }
+}
+
+void handleButtonPress(uint8_t relayTime)
+{
+  if (!check_time) 
+  {
+    startMillis = millis();
+    check_time = true;
+  }
+  Bt_ready = true;
+  digitalWrite(relay, 0);  //on relay
+  Check_distance();        
+  //send data & LCD
+
+  if (millis() - startMillis >= relayTime * 60 * 1000 && check_time == true && check_button_loop == 1) 
+  {
+    digitalWrite(relay, 1);  //off relay
+    Bt_ready = false;
+    check_time = false;
+    check_button_loop = 0;
+  }
+}
+
+void Program()
+{
+  if(buttonPressed_1)
+  {
+    buttonPressed_1 = false;
+  }
+  else if(buttonPressed_2 && Bt_ready == false) //30 minite
+  {
+    handleButtonPress(30);
+    buttonPressed_2 = false;
+  }
+  else if(buttonPressed_3 && Bt_ready == false) //60 minite
+  {
+    handleButtonPress(60);
+    buttonPressed_3 = false;
+  }
+  else if(buttonPressed_4 && Bt_ready == false) //90 minite
+  {
+    handleButtonPress(90);
+    buttonPressed_4 = false;
   }
 }
 
 void loop()
 {
-  Active();
+  Program();
 }

@@ -28,7 +28,7 @@ const unsigned long debounceDelay = 300; // Thời gian chờ để xử lý nhi
 uint8_t check_button_loop = 0;  // Tránh nhấn nhiều lần 1 nút
 
 uint8_t Set_time_day = 120 * 60 *1000;
-bool ready = false;
+bool Bt_ready = false; // trạng thái bấm nút
 
 bool check_time = false;
 unsigned long startMillis;
