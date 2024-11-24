@@ -24,7 +24,6 @@ void setup()
   pinMode(relay,OUTPUT);
   setup_sensor();
   
-
   //Khai bao ngat 
   pinMode(buttonPin_1, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(buttonPin_1), buttonISR_1, FALLING);
@@ -60,12 +59,13 @@ void handleButtonPress(uint8_t relayTime, uint8_t i)
   {
     startMillis = millis();
     check_time = true;
-    setBtReady(i);
+    setBtReady(i); 
+    buttonPressed[i-1] = false;
     //Notice
     Serial.print("Step ");
     Serial.println(i);
   }
-  
+
   digitalWrite(relay, 0);  //on relay
   Check_distance();        
   //send data & LCD
@@ -85,33 +85,21 @@ void handleButtonPress(uint8_t relayTime, uint8_t i)
 
 void Program()
 {
-  if(buttonPressed_1)
+  if(buttonPressed[0])
   {
-    buttonPressed_1 = false;
+    buttonPressed[0] = false;
   }
-  else if(buttonPressed_2 && Bt_ready_2 == false) //30 minite
+  else if(buttonPressed[1] && Bt_ready_2 == false) //30 minite
   {
     handleButtonPress(30,2);
-    if (!check_time)
-    {
-      buttonPressed_2 = false; 
-    }
   }
-  else if(buttonPressed_3 && Bt_ready_3 == false) //60 minite
+  else if(buttonPressed[2] && Bt_ready_3 == false) //60 minite
   {
     handleButtonPress(60,3);
-    if (!check_time)
-    {
-      buttonPressed_3 = false; 
-    }
   }
-  else if(buttonPressed_4 && Bt_ready_4 == false) //90 minite
+  else if(buttonPressed[3] && Bt_ready_4 == false) //90 minite
   {
     handleButtonPress(90,4);
-    if (!check_time)
-    {
-      buttonPressed_4 = false; 
-    }
   }
 }
 

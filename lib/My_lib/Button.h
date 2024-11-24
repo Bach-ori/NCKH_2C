@@ -11,10 +11,7 @@ const uint8_t buttonPin_3 = 3;
 const uint8_t buttonPin_4 = 4; 
 
 //State button
-volatile bool buttonPressed_1 = false; 
-volatile bool buttonPressed_2 = false;
-volatile bool buttonPressed_3 = false;
-volatile bool buttonPressed_4 = false;
+volatile bool buttonPressed[4] = {false,false,false,false};
 
 volatile unsigned long lastDebounceTime_1 = 0;
 volatile unsigned long lastDebounceTime_2 = 0;
@@ -56,7 +53,7 @@ void IRAM_ATTR buttonISR_1()   //chuyển chế độ
   if (currentMillis - lastDebounceTime_1 > debounceDelay) 
   {
     lastDebounceTime_1 = currentMillis;
-    buttonPressed_1 = true;
+    buttonPressed[0] = true;
     check_button_loop++;
   }
 }
@@ -67,7 +64,7 @@ void IRAM_ATTR buttonISR_2()   //chuyển chế độ
   if (currentMillis - lastDebounceTime_2 > debounceDelay) 
   {
     lastDebounceTime_2 = currentMillis;
-    buttonPressed_2 = true;
+    buttonPressed[1] = true;
     check_button_loop++;
   }
 }
@@ -78,7 +75,7 @@ void IRAM_ATTR buttonISR_3()   //chuyển chế độ
   if (currentMillis - lastDebounceTime_3 > debounceDelay) 
   {
     lastDebounceTime_3 = currentMillis;
-    buttonPressed_3 = true;
+    buttonPressed[2] = true;
     check_button_loop++;
   }
 }
@@ -89,7 +86,7 @@ void IRAM_ATTR buttonISR_4()   //chuyển chế độ
   if (currentMillis - lastDebounceTime_4 > debounceDelay) 
   {
     lastDebounceTime_4 = currentMillis;
-    buttonPressed_4 = true;
+    buttonPressed[3] = true;
     check_button_loop++;
   }
 }
