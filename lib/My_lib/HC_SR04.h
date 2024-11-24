@@ -1,11 +1,13 @@
+#ifndef Sensor_H
+#define Sensor_H
+
 #include <Arduino.h>
-const int trig = 8;     // chân trig của HC-SR04
-const int echo = 7;     // chân echo của HC-SR04
+const uint8_t trig = 8;     // chân trig của HC-SR04
+const uint8_t echo = 7;     // chân echo của HC-SR04
 int distance = 0;
  
 void setup_sensor()
 {
-    Serial.begin(9600);     // giao tiếp Serial với baudrate 9600
     pinMode(trig,OUTPUT);   // chân trig sẽ phát tín hiệu
     pinMode(echo,INPUT);    // chân echo sẽ nhận tín hiệu
 }
@@ -25,10 +27,13 @@ void sensor()
     // Đo độ rộng xung HIGH ở chân echo. 
     duration = pulseIn(echo,HIGH);  
     // Tính khoảng cách đến vật.
-    distance = int(duration/2/29.412);
+    distance = uint8_t(duration/2/29.412);
     
     // /* In kết quả ra Serial Monitor */
     // Serial.print(distance);
     // Serial.println("cm");
     // delay(200);
 }
+
+#endif
+

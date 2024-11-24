@@ -3,75 +3,12 @@
 //include <NTPClient.h>
 #include <WiFiUdp.h>
 #include "HC_SR04.h"
-
-const char* ssid = "Home Unifi";
-const char* password = "cotam123";
-
-const int buttonPin_1 = 1; 
-const int buttonPin_2 = 2; 
-const int buttonPin_3 = 3; 
-const int buttonPin_4 = 4; 
-
-const int relay = 10;
-const int bell = 9;
-
-volatile bool buttonPressed_1 = false;
-volatile bool buttonPressed_2 = false;
-volatile bool buttonPressed_3 = false;
-volatile bool buttonPressed_4 = false;
-
-volatile unsigned long lastDebounceTime_1 = 0;
-volatile unsigned long lastDebounceTime_2 = 0;
-volatile unsigned long lastDebounceTime_3 = 0;
-volatile unsigned long lastDebounceTime_4 = 0;
-const unsigned long debounceDelay = 300; // Thời gian chờ để xử lý nhiễu (milliseconds)
-
-  // Time
-int timezone = 7 * 3600; // GMT+7
-int dst = 0;
-
-void IRAM_ATTR buttonISR_1()   //chuyển chế độ 
-{
-  unsigned long currentMillis = millis();
-  if (currentMillis - lastDebounceTime_1 > debounceDelay) 
-  {
-    lastDebounceTime_1 = currentMillis;
-    buttonPressed_1 = true;
-  }
-}
-
-void IRAM_ATTR buttonISR_2()   //chuyển chế độ 
-{
-  unsigned long currentMillis = millis();
-  if (currentMillis - lastDebounceTime_2 > debounceDelay) 
-  {
-    lastDebounceTime_2 = currentMillis;
-    buttonPressed_2 = true;
-  }
-}
-
-void IRAM_ATTR buttonISR_3()   //chuyển chế độ 
-{
-  unsigned long currentMillis = millis();
-  if (currentMillis - lastDebounceTime_3 > debounceDelay) 
-  {
-    lastDebounceTime_3 = currentMillis;
-    buttonPressed_3 = true;
-  }
-}
-
-void IRAM_ATTR buttonISR_4()   //chuyển chế độ 
-{
-  unsigned long currentMillis = millis();
-  if (currentMillis - lastDebounceTime_4 > debounceDelay) 
-  {
-    lastDebounceTime_4 = currentMillis;
-    buttonPressed_4 = true;
-  }
-}
+#include "Var.h"
+#include "Button.h" 
 
 void setup()
 {
+  Serial.begin(9600);     // giao tiếp Serial với baudrate 9600
   // Kết nối Wi-Fi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) 
@@ -80,13 +17,15 @@ void setup()
     Serial.println("Connecting to WiFi...");
   }
   Serial.println("Connected to WiFi");
-  // Bắt đầu NTP client
+
+  // Lay real time
   //timeClient.begin();
 
   pinMode(relay,OUTPUT);
   setup_sensor();
   
 
+  //Khai bao ngat 
   pinMode(buttonPin_1, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(buttonPin_1), buttonISR_1, FALLING);
 
@@ -100,24 +39,22 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(buttonPin_4), buttonISR_4, FALLING);
 }
 
-int Set_time_day = 120;
-bool ready = false;
-
 void Check_distance()
 {
   sensor();
-  int safety_distance_time = millis();
+  static unsigned long safety_distance_time = millis();
   if (distance <= 1000 && (millis() - safety_distance_time >= 5000)) 
   {
     digitalWrite(bell,1);
   }
   else
   {
+    safety_distance_time = millis();  
     digitalWrite(bell,0);
   }
 }
 
-void loop()
+void Active()
 {
   if(buttonPressed_1)  // adult
   {
@@ -127,7 +64,7 @@ void loop()
   {
     ready = true;
     digitalWrite(relay,0);
-    int Wait_time = 1800;
+    int Wait_time = 30 * 60 * 1000; // 30 phút
     unsigned long ht = millis();
     if(ht - millis() >= Wait_time)
     {
@@ -144,7 +81,7 @@ void loop()
   {
     ready = true;
     digitalWrite(relay,0);
-    int Wait_time = 3600;
+    int Wait_time = 60 * 60 * 1000; // 60 phút 
     unsigned long ht = millis();
     if(ht - millis() >= Wait_time)
     {
@@ -161,7 +98,7 @@ void loop()
   {
     ready = true;
     digitalWrite(relay,0);
-    int Wait_time = 5400;
+    int Wait_time = 90 * 60 * 1000; // 90 phút
     unsigned long ht = millis();
     if(ht - millis() >= Wait_time)
     {
@@ -174,4 +111,9 @@ void loop()
       Serial.println("buttonPressed_4");
     }
   }
+}
+
+void loop()
+{
+  Active();
 }
