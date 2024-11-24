@@ -60,7 +60,7 @@ void handleButtonPress(uint8_t relayTime, uint8_t i)
     startMillis = millis();
     check_time = true;
     setBtReady(i); 
-    buttonPressed[i-1] = false;
+    buttonPressed[i] = false;
     //Notice
     Serial.print("Step ");
     Serial.println(i);
@@ -91,15 +91,15 @@ void Program()
   }
   else if(buttonPressed[1] && Bt_ready_2 == false) //30 minite
   {
-    handleButtonPress(30,2);
+    handleButtonPress(30,1);
   }
   else if(buttonPressed[2] && Bt_ready_3 == false) //60 minite
   {
-    handleButtonPress(60,3);
+    handleButtonPress(60,2);
   }
   else if(buttonPressed[3] && Bt_ready_4 == false) //90 minite
   {
-    handleButtonPress(90,4);
+    handleButtonPress(90,3);
   }
 }
 
