@@ -11,6 +11,7 @@ void IRAM_ATTR buttonISR_1()   //chuyển chế độ
   {
     lastDebounceTime_1 = currentMillis;
     buttonPressed_1 = true;
+    check_button_loop++;
   }
 }
 
@@ -21,6 +22,7 @@ void IRAM_ATTR buttonISR_2()   //chuyển chế độ
   {
     lastDebounceTime_2 = currentMillis;
     buttonPressed_2 = true;
+    check_button_loop++;
   }
 }
 
@@ -31,6 +33,7 @@ void IRAM_ATTR buttonISR_3()   //chuyển chế độ
   {
     lastDebounceTime_3 = currentMillis;
     buttonPressed_3 = true;
+    check_button_loop++;
   }
 }
 
@@ -41,6 +44,7 @@ void IRAM_ATTR buttonISR_4()   //chuyển chế độ
   {
     lastDebounceTime_4 = currentMillis;
     buttonPressed_4 = true;
+    check_button_loop++;
   }
 }
 

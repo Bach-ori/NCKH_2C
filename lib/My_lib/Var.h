@@ -15,7 +15,7 @@ const uint8_t buttonPin_4 = 4;
 const int relay = 10;
 const int bell = 9;
 
-volatile bool buttonPressed_1 = false;
+volatile bool buttonPressed_1 = false; 
 volatile bool buttonPressed_2 = false;
 volatile bool buttonPressed_3 = false;
 volatile bool buttonPressed_4 = false;
@@ -25,9 +25,13 @@ volatile unsigned long lastDebounceTime_2 = 0;
 volatile unsigned long lastDebounceTime_3 = 0;
 volatile unsigned long lastDebounceTime_4 = 0;
 const unsigned long debounceDelay = 300; // Thời gian chờ để xử lý nhiễu (milliseconds)
+uint8_t check_button_loop = 0;  // Tránh nhấn nhiều lần 1 nút
 
 uint8_t Set_time_day = 120 * 60 *1000;
 bool ready = false;
+
+bool check_time = false;
+unsigned long startMillis;
 
 #endif
 
