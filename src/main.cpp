@@ -40,10 +40,10 @@ void setup()
 
 void Check_distance()
 {
-  sensor();
-  if(distance <= 10) 
+  sensor_1();
+  sensor_2();
+  if(distance_1 <= 10 || distance_2 <= 10) 
   {
-    Serial.println("Danger");
     if(!check_sensor)
     {
       safety_distance_time = millis();
@@ -52,7 +52,6 @@ void Check_distance()
     if(check_sensor && (millis() - safety_distance_time >= 5000))
     {
       digitalWrite(buzzer,0);
-      Serial.println("cook");
     }
     delay(200);
   }
