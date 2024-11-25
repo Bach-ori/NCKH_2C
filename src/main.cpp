@@ -56,18 +56,17 @@ void Check_distance()
     }
     if(check_sensor && (millis() - safety_distance_time >= 5000))
     {
-      digitalWrite(buzzer,0);
+      digitalWrite(buzzer,1);
     }
     delay(200);
   }
   else
   {
     check_sensor = false;
-    digitalWrite(buzzer,1);
+    digitalWrite(buzzer,0);
     Serial.println("Safe");
   }
 }
-
 
 void handleButtonPress(uint8_t relayTime)
 {
@@ -84,6 +83,13 @@ void handleButtonPress(uint8_t relayTime)
   if((millis() - startMillis >= (relayTime * 60 * 1000)) && check_time && State_bt) 
   {
     digitalWrite(relay, 1);  //off relay
+    check_time = false;
+    State_bt = false;
+  }
+
+  Cacu_cur();
+  if(mA >= abs(30))
+  {
     check_time = false;
     State_bt = false;
   }
