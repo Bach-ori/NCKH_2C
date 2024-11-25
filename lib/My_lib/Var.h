@@ -8,7 +8,7 @@ const char* password = "cotam123";
 // NTPClient timeClient(udp, "pool.ntp.org", 25200, 3600); // Đồng bộ với máy chủ NTP, +7 giờ UTC
 
 //IO relay
-const int relay = 10;
+const int relay = 12;
 //IO bell
 const int buzzer = 9;
 

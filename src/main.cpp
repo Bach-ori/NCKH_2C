@@ -5,6 +5,8 @@
 #include "HC_SR04.h"
 #include "Var.h"
 #include "Button.h" 
+#include "ACS712.h"
+#include "Cur_res.h"
 
 void setup()
 {
@@ -24,6 +26,9 @@ void setup()
   pinMode(relay,OUTPUT);
   setup_sensor();
   
+  //Current
+  setup_Cur_res();
+
   //interrupt
   pinMode(buttonPin_1, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(buttonPin_1), buttonISR_1, FALLING);
