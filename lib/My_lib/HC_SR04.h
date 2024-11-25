@@ -5,6 +5,8 @@
 const uint8_t trig = 8;     // chân trig của HC-SR04
 const uint8_t echo = 7;     // chân echo của HC-SR04
 int distance = 0;
+unsigned long safety_distance_time = 0;
+bool check_sensor = false;
  
 void setup_sensor()
 {

@@ -10,7 +10,7 @@ const char* password = "cotam123";
 //IO relay
 const int relay = 10;
 //IO bell
-const int bell = 9;
+const int buzzer = 9;
 
 #endif
 

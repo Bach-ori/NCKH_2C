@@ -41,17 +41,29 @@ void setup()
 void Check_distance()
 {
   sensor();
-  static unsigned long safety_distance_time = millis();
-  if (distance <= 1000 && (millis() - safety_distance_time >= 5000)) 
+  if(distance <= 10) 
   {
-    digitalWrite(bell,1);
+    Serial.println("Danger");
+    if(!check_sensor)
+    {
+      safety_distance_time = millis();
+      check_sensor = true;
+    }
+    if(check_sensor && (millis() - safety_distance_time >= 5000))
+    {
+      digitalWrite(buzzer,0);
+      Serial.println("cook");
+    }
+    delay(200);
   }
   else
   {
-    safety_distance_time = millis();  
-    digitalWrite(bell,0);
+    check_sensor = false;
+    digitalWrite(buzzer,1);
+    Serial.println("Safe");
   }
 }
+
 
 void handleButtonPress(uint8_t relayTime)
 {
