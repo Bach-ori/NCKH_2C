@@ -18,78 +18,57 @@ volatile unsigned long lastDebounceTime_2 = 0;
 volatile unsigned long lastDebounceTime_3 = 0;
 volatile unsigned long lastDebounceTime_4 = 0;
 const unsigned long debounceDelay = 300; // Thời gian chờ để xử lý nhiễu (milliseconds)
-uint8_t check_button_loop = 0;  // Tránh nhấn nhiều lần 1 nút
 
 unsigned long Set_time_day = 120 * 60 * 1000;
 bool check_time = false;
 unsigned long startMillis;
 
-bool Bt_ready_1 = false;
-bool Bt_ready_2 = false;
-bool Bt_ready_3 = false;
-bool Bt_ready_4 = false;
-
-bool* Bt_ready[] = {&Bt_ready_1, &Bt_ready_2, &Bt_ready_3, &Bt_ready_4};
-
-void setBtReady(int index) 
-{
-  for (int i = 0; i < 4; i++) 
-  {
-    *Bt_ready[i] = (i != index - 1); // Đặt true nếu không trùng index
-  }
-}
-
-void resetBtReady() 
-{
-  for (int i = 0; i < 4; i++) 
-  {
-    *Bt_ready[i] = false;  // Đặt giá trị của từng biến trỏ tới bằng false
-  }
-}
+bool State_bt = false;
 
 void IRAM_ATTR buttonISR_1()   //chuyển chế độ 
 {
   unsigned long currentMillis = millis();
-  if (currentMillis - lastDebounceTime_1 > debounceDelay) 
+  if ((currentMillis - lastDebounceTime_1 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_1 = currentMillis;
     buttonPressed[0] = true;
-    check_button_loop++;
+    State_bt = true;
   }
 }
 
 void IRAM_ATTR buttonISR_2()   //chuyển chế độ 
 {
   unsigned long currentMillis = millis();
-  if (currentMillis - lastDebounceTime_2 > debounceDelay) 
+  if ((currentMillis - lastDebounceTime_2 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_2 = currentMillis;
     buttonPressed[1] = true;
-    check_button_loop++;
+    State_bt = true;
   }
 }
 
 void IRAM_ATTR buttonISR_3()   //chuyển chế độ 
 {
-  unsigned long currentMillis = millis();
-  if (currentMillis - lastDebounceTime_3 > debounceDelay) 
+unsigned long currentMillis = millis();
+  if ((currentMillis - lastDebounceTime_3 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_3 = currentMillis;
     buttonPressed[2] = true;
-    check_button_loop++;
+    State_bt = true;
   }
 }
 
 void IRAM_ATTR buttonISR_4()   //chuyển chế độ 
 {
   unsigned long currentMillis = millis();
-  if (currentMillis - lastDebounceTime_4 > debounceDelay) 
+  if ((currentMillis - lastDebounceTime_4 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_4 = currentMillis;
     buttonPressed[3] = true;
-    check_button_loop++;
+    State_bt = true;
   }
 }
 
 #endif
+
 
