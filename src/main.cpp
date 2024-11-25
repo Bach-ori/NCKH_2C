@@ -8,8 +8,8 @@
 
 void setup()
 {
-  Serial.begin(9600);     // giao tiếp Serial với baudrate 9600
-  // Kết nối Wi-Fi
+  Serial.begin(9600);     
+  // Connect wifi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) 
   {
@@ -24,7 +24,7 @@ void setup()
   pinMode(relay,OUTPUT);
   setup_sensor();
   
-  //Khai bao ngat 
+  //interrupt
   pinMode(buttonPin_1, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(buttonPin_1), buttonISR_1, FALLING);
 
@@ -59,8 +59,7 @@ void handleButtonPress(uint8_t relayTime, uint8_t i)
   {
     startMillis = millis();
     check_time = true;
-    setBtReady(i); 
-    buttonPressed[i] = false;
+    setBtReady(i); // i: false, !i = true
     //Notice
     Serial.print("Step ");
     Serial.println(i);
@@ -92,14 +91,26 @@ void Program()
   else if(buttonPressed[1] && Bt_ready_2 == false) //30 minite
   {
     handleButtonPress(30,1);
+    if (!check_time)
+    {
+      buttonPressed[1] = false;
+    }
   }
   else if(buttonPressed[2] && Bt_ready_3 == false) //60 minite
   {
     handleButtonPress(60,2);
+    if (!check_time)
+    {
+      buttonPressed[2] = false;
+    }
   }
   else if(buttonPressed[3] && Bt_ready_4 == false) //90 minite
   {
     handleButtonPress(90,3);
+    if (!check_time)
+    {
+      buttonPressed[3] = false;
+    }
   }
 }
 
