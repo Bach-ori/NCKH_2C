@@ -19,7 +19,6 @@ volatile unsigned long lastDebounceTime_3 = 0;
 volatile unsigned long lastDebounceTime_4 = 0;
 const unsigned long debounceDelay = 300; // Thời gian chờ để xử lý nhiễu (milliseconds)
 
-unsigned long Set_time_day = 120 * 60 * 1000;
 bool check_time = false;
 unsigned long startMillis;
 

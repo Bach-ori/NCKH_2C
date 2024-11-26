@@ -2,11 +2,12 @@
 #include <WiFi.h>
 //include <NTPClient.h>
 #include <WiFiUdp.h>
-#include "HC_SR04.h"
-#include "Var.h"
-#include "Button.h" 
-#include "ACS712.h"
+#include "HC_SR04.h"         
+#include "Var.h"            
+#include "Button.h"          
+#include "ACS712.h"          
 #include "Cur_res.h"
+#include "Count_down.h"
 
 void setup()
 {
@@ -73,25 +74,30 @@ void handleButtonPress(uint8_t relayTime)
   if(!check_time) 
   {
     startMillis = millis();
-    check_time = true;;
+    startCountdown(relayTime);
+    check_time = true;
   }
-
+  
   digitalWrite(relay, 0);  //on relay
   Check_distance();        
-  //send data & LCD
+  updateCountdown(); //LCD
+  //send data
 
   if((millis() - startMillis >= (relayTime * 60 * 1000)) && check_time && State_bt) 
   {
     digitalWrite(relay, 1);  //off relay
+    stopCountdown();
     check_time = false;
     State_bt = false;
   }
 
   Cacu_cur();
-  if(mA >= abs(30))
+  if(mA <= abs(100))
   {
+    digitalWrite(relay, 1);
     check_time = false;
     State_bt = false;
+    stopCountdown();
   }
 }
 
