@@ -4,13 +4,13 @@
 const char* ssid = "Home Unifi";
 const char* password = "cotam123";
 
-// WiFiUDP udp;
-// NTPClient timeClient(udp, "pool.ntp.org", 25200, 3600); // Đồng bộ với máy chủ NTP, +7 giờ UTC
+WiFiUDP udp;
+NTPClient timeClient(udp, "pool.ntp.org", 25200, 3600); // Đồng bộ với máy chủ NTP, +7 giờ UTC
 
 //IO relay
-const int relay = 12;
+const int relay = 13;
 //IO bell
-const int buzzer = 9;
+const int buzzer = 4;
 
 #endif
 

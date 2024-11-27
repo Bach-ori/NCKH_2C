@@ -1,7 +1,11 @@
 #include <Arduino.h>
 #include <WiFi.h>
-//include <NTPClient.h>
+#include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <esp_timer.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
 #include "HC_SR04.h"         
 #include "Var.h"            
 #include "Button.h"          
@@ -30,6 +34,9 @@ void setup()
   //Current
   setup_Cur_res();
 
+  //LCD
+  setup_LCD();
+
   //interrupt
   pinMode(buttonPin_1, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(buttonPin_1), buttonISR_1, FALLING);
@@ -42,31 +49,6 @@ void setup()
 
   pinMode(buttonPin_4, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(buttonPin_4), buttonISR_4, FALLING);
-}
-
-void Check_distance()
-{
-  sensor_1();
-  sensor_2();
-  if(distance_1 <= 10 || distance_2 <= 10) 
-  {
-    if(!check_sensor)
-    {
-      safety_distance_time = millis();
-      check_sensor = true;
-    }
-    if(check_sensor && (millis() - safety_distance_time >= 5000))
-    {
-      digitalWrite(buzzer,1);
-    }
-    delay(200);
-  }
-  else
-  {
-    check_sensor = false;
-    digitalWrite(buzzer,0);
-    Serial.println("Safe");
-  }
 }
 
 void handleButtonPress(uint8_t relayTime)
