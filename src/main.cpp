@@ -1,54 +1,33 @@
 #include <Arduino.h>
 #include <WiFi.h>
-#include <NTPClient.h>
 #include <WiFiUdp.h>
-#include <esp_timer.h>
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
+#include <NTPClient.h>
 
-#include "HC_SR04.h"         
-#include "Var.h"            
-#include "Button.h"          
-#include "ACS712.h"          
-#include "Cur_res.h"
 #include "Count_down.h"
+#include "Button.h"
+#include "HC_SR04.h"
+#include "Var.h"    
 
 void setup()
 {
-  Serial.begin(9600);     
-  // Connect wifi
+  Serial.begin(115200);
+
+  // Kết nối WiFi
+  Serial.print("Đang kết nối WiFi...");
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) 
   {
     delay(1000);
-    Serial.println("Connecting to WiFi...");
+    Serial.print(".");
   }
-  Serial.println("Connected to WiFi");
+  Serial.println("\nĐã kết nối WiFi!");
+  timeClient.begin();
 
-  // Lay real time
-  //timeClient.begin();
-
-  pinMode(relay,OUTPUT);
-  setup_sensor();
+  pinMode(buzzer,OUTPUT);
   
-  //Current
-  setup_Cur_res();
-
-  //LCD
+  setup_sensor();
   setup_LCD();
-
-  //interrupt
-  pinMode(buttonPin_1, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(buttonPin_1), buttonISR_1, FALLING);
-
-  pinMode(buttonPin_2, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(buttonPin_2), buttonISR_2, FALLING);
-
-  pinMode(buttonPin_3, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(buttonPin_3), buttonISR_3, FALLING);
-
-  pinMode(buttonPin_4, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(buttonPin_4), buttonISR_4, FALLING);
+  setup_button();
 }
 
 void handleButtonPress(uint8_t relayTime)
@@ -61,7 +40,7 @@ void handleButtonPress(uint8_t relayTime)
   }
   
   digitalWrite(relay, 0);  //on relay
-  Check_distance();        
+  Check_distance();       
   updateCountdown(); //LCD
   //send data
 
@@ -71,15 +50,7 @@ void handleButtonPress(uint8_t relayTime)
     stopCountdown();
     check_time = false;
     State_bt = false;
-  }
-
-  Cacu_cur();
-  if(mA <= abs(100))
-  {
-    digitalWrite(relay, 1);
-    check_time = false;
-    State_bt = false;
-    stopCountdown();
+    lcd.clear();
   }
 }
 
@@ -91,7 +62,7 @@ void Program()
   }
   else if(buttonPressed[1])            //30 minite
   {
-    handleButtonPress(30);
+    handleButtonPress(1);
     if (!check_time)
     {
       buttonPressed[1] = false;
@@ -99,7 +70,7 @@ void Program()
   }
   else if(buttonPressed[2])            //60 minite
   {
-    handleButtonPress(60);
+    handleButtonPress(1);
     if (!check_time)
     {
       buttonPressed[2] = false;
@@ -107,14 +78,14 @@ void Program()
   }
   else if(buttonPressed[3])           //90 minite
   {
-    handleButtonPress(90);
+    handleButtonPress(2);
     if (!check_time)
     {
       buttonPressed[3] = false;
     }
   }
 }
-
+ 
 void loop()
 {
   Program();

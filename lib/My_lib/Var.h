@@ -1,18 +1,17 @@
 #ifndef Var_H
 #define Var_H
 
+//IO relay
+const int relay = 14;
+
+unsigned long startMillis;
+
+// Thông tin WiFi
 const char* ssid = "Home Unifi";
 const char* password = "cotam123";
 
-WiFiUDP udp;
-NTPClient timeClient(udp, "pool.ntp.org", 25200, 3600); // Đồng bộ với máy chủ NTP, +7 giờ UTC
-
-//IO relay
-const int relay = 13;
-//IO bell
-const int buzzer = 4;
+// Thông tin NTP
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "pool.ntp.org", 7 * 3600, 60000); // GMT+7 (giờ Việt Nam)
 
 #endif
-
-
-

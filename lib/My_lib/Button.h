@@ -1,8 +1,6 @@
 #ifndef Button_H
 #define Button_H
 
-#include <Arduino.h>
-#include "Var.h"
 #include <esp_timer.h>
 
 //IO button
@@ -21,7 +19,6 @@ volatile unsigned long lastDebounceTime_4 = 0;
 const unsigned long debounceDelay = 300; // Thời gian chờ để xử lý nhiễu (milliseconds)
 
 bool check_time = false;
-unsigned long startMillis;
 
 bool State_bt = false;
 
@@ -69,6 +66,19 @@ void IRAM_ATTR buttonISR_4()   //chuyển chế độ
   }
 }
 
+void setup_button()
+{
+  pinMode(buttonPin_1, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(buttonPin_1), buttonISR_1, FALLING);
+
+  pinMode(buttonPin_2, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(buttonPin_2), buttonISR_2, FALLING);
+
+  pinMode(buttonPin_3, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(buttonPin_3), buttonISR_3, FALLING);
+
+  pinMode(buttonPin_4, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(buttonPin_4), buttonISR_4, FALLING);
+}
+
 #endif
-
-

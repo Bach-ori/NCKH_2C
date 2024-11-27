@@ -1,8 +1,6 @@
 #ifndef Count_h
 #define Count_h
 
-#include <Arduino.h>
-
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
@@ -22,7 +20,7 @@ void startCountdown(int minutes)
     countdownDuration = minutes * 60000; // Thời gian đếm ngược từ phút truyền vào
     countdownStartTime = millis();       // Lưu thời gian bắt đầu
     isCountingDown = true;               // Bật trạng thái đếm ngược
-
+    
     lcd.clear();
     lcd.print("Time: ");
     lcd.setCursor(6, 0);
@@ -30,7 +28,7 @@ void startCountdown(int minutes)
     lcd.print(" min");
   } 
   else 
-  {
+  {    
     lcd.clear();
     lcd.print("No time left!");
   }
@@ -46,20 +44,8 @@ void stopCountdown()
 
     isCountingDown = false; // Dừng đếm ngược
 
-    // Serial.print("Countdown stopped. Total elapsed time: ");
-    // Serial.print(totalElapsedTime / 60000);
-    // Serial.print(" minutes and ");
-    // Serial.print((totalElapsedTime % 60000) / 1000);
-    // Serial.println(" seconds.");
-
     unsigned long remainingTime = set_time_day - totalElapsedTime; // Tính thời gian còn lại
-    // Serial.print("Remaining time from fixed 120 minutes: ");
-    // Serial.print(remainingTime / 60000);
-    // Serial.print(" minutes and ");
-    // Serial.print((remainingTime % 60000) / 1000);
-    // Serial.println(" seconds.");
-    
-    //Thời gian đã đếm
+
     lcd.clear();
     lcd.print("Elapsed: ");
     lcd.setCursor(9, 0);
@@ -67,8 +53,7 @@ void stopCountdown()
     lcd.print("'");
     lcd.print((totalElapsedTime % 60000) / 1000);
     lcd.print("s");
-    
-    //Thời gian còn lại của 120p
+
     lcd.setCursor(0, 1);
     lcd.print("Remain: ");
     lcd.print(remainingTime / 60000);
@@ -91,12 +76,6 @@ void updateCountdown()
       int remainingSeconds = (currentRemainingTime % 60000) / 1000;
 
       // Hiển thị thời gian còn lại
-      
-      // Serial.print(remainingMinutes);
-      // Serial.print(":");
-      // if (remainingSeconds < 10) Serial.print("0");
-      // Serial.println(remainingSeconds);
-
       lcd.setCursor(0, 1);
       lcd.print("C_time: ");
       lcd.print(remainingMinutes);
@@ -106,7 +85,6 @@ void updateCountdown()
     } 
     else 
     {
-      //Serial.println("Countdown finished!");
       lcd.print("Countdown done!");
       totalElapsedTime += countdownDuration; // Cộng toàn bộ thời gian đếm vào tổng
       if (totalElapsedTime > set_time_day) totalElapsedTime = set_time_day; // Giới hạn tổng thời gian
@@ -121,5 +99,5 @@ void setup_LCD()
   lcd.backlight();     // Bật đèn nền
 }
 
-#endif
 
+#endif
