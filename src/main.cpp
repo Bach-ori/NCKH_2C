@@ -6,22 +6,14 @@
 #include "Count_down.h"
 #include "Button.h"
 #include "HC_SR04.h"
-#include "Var.h"    
+#include "Var.h"  
+#include "Blynk.h"    
 
 void setup()
 {
   Serial.begin(115200);
 
-  // Kết nối WiFi
-  Serial.print("Đang kết nối WiFi...");
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) 
-  {
-    delay(1000);
-    Serial.print(".");
-  }
-  Serial.println("\nĐã kết nối WiFi!");
-  timeClient.begin();
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, password);
 
   pinMode(buzzer,OUTPUT);
   
@@ -30,7 +22,7 @@ void setup()
   setup_button();
 }
 
-void handleButtonPress(uint8_t relayTime)
+void handleButtonPress(float relayTime)
 {
   if(!check_time) 
   {
@@ -50,40 +42,46 @@ void handleButtonPress(uint8_t relayTime)
     stopCountdown();
     check_time = false;
     State_bt = false;
-    lcd.clear();
+    //lcd.clear();
   }
+
 }
 
 void Program()
 {
+  //-------------------------------------------
   if(buttonPressed[0])
   {
     buttonPressed[0] = false;
   }
-  else if(buttonPressed[1])            //30 minite
+  //-------------------------------------------
+  else if(buttonPressed[1])           //30 minite
   {
-    handleButtonPress(1);
+    handleButtonPress(0.5);
     if (!check_time)
     {
       buttonPressed[1] = false;
     }
   }
-  else if(buttonPressed[2])            //60 minite
+  //-------------------------------------------
+  else if(buttonPressed[2])          //60 minite
   {
-    handleButtonPress(1);
+    handleButtonPress(0.7);
     if (!check_time)
     {
       buttonPressed[2] = false;
     }
   }
-  else if(buttonPressed[3])           //90 minite
+  //-------------------------------------------
+  else if(buttonPressed[3])         //90 minite
   {
-    handleButtonPress(2);
+    handleButtonPress(1);
     if (!check_time)
     {
       buttonPressed[3] = false;
     }
   }
+  Blynk.run();
 }
  
 void loop()
