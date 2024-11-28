@@ -14,6 +14,15 @@ unsigned long countdownDuration = 0;        // Thời gian đếm ngược hiệ
 bool isCountingDown = false;                // Cờ trạng thái đếm ngược
 String mode = "";
 
+void Ready()
+{
+  lcd.clear();
+  lcd.setCursor(4,0);
+  lcd.print("READY");
+  delay(2000);
+  lcd.clear();
+}
+
 void startCountdown(float minutes) 
 {
   if (totalElapsedTime < set_time_day) 
@@ -22,19 +31,19 @@ void startCountdown(float minutes)
     countdownStartTime = millis();       // Lưu thời gian bắt đầu
     isCountingDown = true;               // Bật trạng thái đếm ngược
     
-    if(minutes == 30 || minutes == 0.5)
+    if (fabs(minutes - 0.2) < 0.01)
     {
       mode = "Child mode 1";
     }
-    else if(minutes == 60 || minutes == 0.7)
+    else if (fabs(minutes - 0.4) < 0.01)
     {
       mode = "Child mode 2";
     }
-    else if(minutes == 90 || minutes == 1)
+    else if (fabs(minutes - 0.6) < 0.01)
     {
       mode = "Child mode 3";
     }
-    else
+    else if (fabs(minutes - 0.1) < 0.01)
     {
       mode = "Adult mode";
     }
