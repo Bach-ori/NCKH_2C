@@ -116,8 +116,8 @@ void Program()
       buttonPressed[3] = false;
     }
   }
-  Blynk.run();
-  Cacu_cur();   //
+  Blynk.run(); 
+  Cacu_cur();   //Caculator current
 }
 
 void setup()
