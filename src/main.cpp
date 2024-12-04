@@ -43,10 +43,10 @@ void handleButtonPress(float relayTime)
   if (!check_time_wait)                     // After the button is pressed:
   {        
     digitalWrite(relay, 0);  // on relay                        
-    startMillis = millis();        
+    startMillis = millis();  // Start counting down the waiting time
     check_time_wait = true;     
     lcd.clear();
-    lcd.print("Wait on TV");
+    lcd.print("Wait for the TV on");
   }
 
   if (check_time_wait && !check_time_mode)  //  + if there is current within 5s, the counter will start.
@@ -55,11 +55,13 @@ void handleButtonPress(float relayTime)
     {
       flag_wait = true;
     }
-    else if(millis() - startMillis >= 5000)  //  + if after 5s there is no current, the counter will stop.
+    else if(millis() - startMillis >= 5000)  //  + if after 5s there is no current, the counter will stop and off relay
     {
       check_time_wait = false;
-      lcd.clear();
-      lcd.print("End time");
+      digitalWrite(relay, 1);  // off relay 
+      // lcd.clear();
+      // lcd.print("End time wait");
+      stop_noCur();
     }
   }
 

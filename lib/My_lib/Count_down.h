@@ -79,7 +79,7 @@ void stopCountdown()
     {
       remainingTime = 0;
     }
-    Blynk.virtualWrite(V5,totalElapsedTime/60000);  
+    Blynk.virtualWrite(V4,totalElapsedTime/60000);  
 
     lcd.clear();
     lcd.print("Elapsed: ");
@@ -118,7 +118,6 @@ void updateCountdown()
       int remainingMinutes = currentRemainingTime / 60000;
       int remainingSeconds = (currentRemainingTime % 60000) / 1000;
 
-      // Hiển thị thời gian còn lại
       lcd.setCursor(0, 1);
       lcd.print("C_time: ");
       lcd.print(remainingMinutes);
@@ -128,9 +127,43 @@ void updateCountdown()
     } 
     else 
     {
-      totalElapsedTime += countdownDuration; // Cộng toàn bộ thời gian đếm vào tổng
-      isCountingDown = false; // Dừng đếm ngược khi hết thời gian
+      totalElapsedTime += countdownDuration; // Add all the counting times to the total
+      isCountingDown = false;                // Stop countdown when time runs out
     }
+  }
+}
+
+void stop_noCur()
+{
+  unsigned long remainingTime = set_time_day - totalElapsedTime; 
+
+  if(remainingTime <= 0)
+  {
+    remainingTime = 0;
+  }
+  Blynk.virtualWrite(V4,totalElapsedTime/60000);  
+
+  lcd.clear();
+  lcd.print("Elapsed: ");
+  lcd.setCursor(9, 0);
+  lcd.print(totalElapsedTime / 60000);
+  lcd.print("'");
+  lcd.print((totalElapsedTime % 60000) / 1000);
+  lcd.print("s");
+  
+  if (totalElapsedTime <= set_time_day)
+  {
+    lcd.setCursor(0, 1);
+    lcd.print("Remain: ");
+    lcd.print(remainingTime / 60000);
+    lcd.print("'");
+    lcd.print((remainingTime % 60000) / 1000);
+    lcd.print("s");
+  }
+  else
+  {
+    lcd.setCursor(3, 1);
+    lcd.print("Time max");
   }
 }
 
