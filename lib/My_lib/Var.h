@@ -2,7 +2,8 @@
 #define Var_H
 
 //IO relay
-const int relay = 14;
+const int relay = 19;
+const int Cur = 14;
 
 unsigned long startMillis;
 
@@ -16,6 +17,8 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 7 * 3600, 60000); // GMT+7 (giờ V
 
 //check current
 bool check_time_wait = false;
-bool flag_wait = false;       
+bool flag_wait = false;      
+
+bool state_bt_1 = false;
 
 #endif
