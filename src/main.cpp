@@ -36,7 +36,7 @@ void handleButtonPress(float relayTime)
 
   if (check_time_wait && !check_time_mode)  //  + if there is current within 5s, the counter will start.
   {
-    if(abs(mA) > 1000)
+    if(abs(mA) > 500)
     {
       flag_wait = true;
     }
@@ -61,7 +61,7 @@ void handleButtonPress(float relayTime)
     updateCountdown();       // countdown
   }
  
-  if (check_time_mode && State_bt && (millis() - startMillis >= (relayTime * 60 * 1000) || abs(mA) < 1000))  //When enough time has been counted or during the countdown process the current is lost
+  if (check_time_mode && State_bt && (millis() - startMillis >= (relayTime * 60 * 1000) || abs(mA) < 500))  //When enough time has been counted or during the countdown process the current is lost
   {
     active_end();                                                                                          //  stop the countdown
   }
@@ -76,12 +76,15 @@ void Program()
     if(state == 1)
     {
       digitalWrite(relay,0); //off relay
+      lcd.clear();
       buttonPressed[0] = false;
       State_bt = false;   
     }
     else
     {
       digitalWrite(relay,1); //on relay
+      lcd.clear();
+      lcd.print("Adult mode");
       buttonPressed[0] = false;
       State_bt = false;   
     }

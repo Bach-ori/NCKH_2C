@@ -31,21 +31,17 @@ void startCountdown(float minutes)
     countdownStartTime = millis();       // Save start time
     isCountingDown = true;               // Turn on countdown status
     
-    if (fabs(minutes - 0.2) < 0.01)
+    if (fabs(minutes - 0.2) < 0.01)        // 30 minutes
     {
       mode = "Child mode 1";
     }
-    else if (fabs(minutes - 0.4) < 0.01)
+    else if (fabs(minutes - 0.4) < 0.01)       // 60 minutes
     {
       mode = "Child mode 2";
     }
-    else if (fabs(minutes - 0.6) < 0.01)
+    else if (fabs(minutes - 0.6) < 0.01) // 90 minutes
     {
       mode = "Child mode 3";
-    }
-    else if (fabs(minutes - 0.1) < 0.01)
-    {
-      mode = "Adult mode";
     }
 
     lcd.clear();
@@ -133,7 +129,7 @@ void updateCountdown()
   }
 }
 
-void stop_noCur()
+void stop_noCur()   // When the 5s waiting time has passed
 {
   unsigned long remainingTime = set_time_day - totalElapsedTime; 
 
