@@ -10,25 +10,10 @@
 #include "Blynk.h"    
 #include "Cur_res.h"
 
-void setup()
-{
-  Serial.begin(115200);
-
-  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, password);  // connect Blynk
-  //setup_camera();
-
-  pinMode(buzzer,OUTPUT);
-  
-  setup_sensor();
-  setup_LCD();     
-  setup_button();  // interrupt declaration
-  setup_Cur_res();
-  Ready();         // notice on LCD
-}
 
 void active_end()
 {
-  digitalWrite(relay, 1);  // off relay
+  digitalWrite(relay, 0);  // off relay
   digitalWrite(buzzer,0);  // off buzzer
   stopCountdown();         // stop count down
   check_sensor = false;    // waiting flag indicates safe distance
@@ -40,9 +25,9 @@ void active_end()
 
 void handleButtonPress(float relayTime)
 {
-  if (!check_time_wait)                     // After the button is pressed:
+  if (!check_time_wait)      // After the button is pressed:
   {        
-    digitalWrite(relay, 0);  // on relay                        
+    digitalWrite(relay, 1);  // on relay                        
     startMillis = millis();  // Start counting down the waiting time
     check_time_wait = true;     
     lcd.clear();
@@ -51,16 +36,14 @@ void handleButtonPress(float relayTime)
 
   if (check_time_wait && !check_time_mode)  //  + if there is current within 5s, the counter will start.
   {
-    if(abs(mA) > 200)
+    if(abs(mA) > 1000)
     {
       flag_wait = true;
     }
     else if(millis() - startMillis >= 5000)  //  + if after 5s there is no current, the counter will stop and off relay
     {
       check_time_wait = false;
-      digitalWrite(relay, 1);  // off relay 
-      // lcd.clear();
-      // lcd.print("End time wait");
+      digitalWrite(relay, 0);  // off relay 
       stop_noCur();
     }
   }
@@ -78,7 +61,7 @@ void handleButtonPress(float relayTime)
     updateCountdown();       // countdown
   }
  
-  if (check_time_mode && State_bt && (millis() - startMillis >= (relayTime * 60 * 1000) || abs(mA) < 200))  //When enough time has been counted or during the countdown process the current is lost
+  if (check_time_mode && State_bt && (millis() - startMillis >= (relayTime * 60 * 1000) || abs(mA) < 1000))  //When enough time has been counted or during the countdown process the current is lost
   {
     active_end();                                                                                          //  stop the countdown
   }
@@ -89,16 +72,24 @@ void Program()
   //-------------------------------------------
   if(buttonPressed[0])
   {
-    handleButtonPress(0.1); //6s
-    if (!check_time_wait)
+    int state = digitalRead(relay);
+    if(state == 1)
     {
+      digitalWrite(relay,0); //off relay
       buttonPressed[0] = false;
+      State_bt = false;   
+    }
+    else
+    {
+      digitalWrite(relay,1); //on relay
+      buttonPressed[0] = false;
+      State_bt = false;   
     }
   }
   //-------------------------------------------
   else if(buttonPressed[1])           //30 minite
   {
-    handleButtonPress(0.2); //12s
+    handleButtonPress(0.2); //30
     if (!check_time_wait)
     {
       buttonPressed[1] = false;
@@ -107,7 +98,7 @@ void Program()
   //-------------------------------------------
   else if(buttonPressed[2])          //60 minite
   {
-    handleButtonPress(0.4); //24s
+    handleButtonPress(0.4); //60
     if (!check_time_wait)
     {
       buttonPressed[2] = false;
@@ -116,17 +107,34 @@ void Program()
   //-------------------------------------------
   else if(buttonPressed[3])         //90 minite
   {
-    handleButtonPress(0.6);  //36s
+    handleButtonPress(0.6);  //90
     if (!check_time_wait)
     {
       buttonPressed[3] = false;
     }
   }
   Blynk.run();
-  Cacu_cur(); // Đọc cảm biến dòng
+  Cacu_cur();
 }
- 
+
+void setup()
+{
+  Serial.begin(115200);
+
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, password);  // connect Blynk
+
+  pinMode(buzzer,OUTPUT); 
+  pinMode(relay,OUTPUT);
+
+  setup_sensor();
+  setup_LCD();     
+  setup_button();  // interrupt declaration
+  setup_Cur_res();
+  Ready();         // notice on LCD
+}
+
 void loop()
 {
   Program();
 }
+
