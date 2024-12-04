@@ -14,4 +14,8 @@ const char* password = "cotam123";
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", 7 * 3600, 60000); // GMT+7 (giờ Việt Nam)
 
+//check current
+bool check_time_wait = false;
+bool flag_wait = false;       
+
 #endif

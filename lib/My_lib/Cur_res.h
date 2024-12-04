@@ -2,7 +2,9 @@
 #define Cur_res_h
 
 #include "ACS712.h"
-ACS712 sensor(ACS712_05B, A0);
+#include "HC_SR04.h"
+#include "Button.h"
+ACS712 sensor(ACS712_05B, 14);
 
 float I;
 float I_TB;
@@ -12,6 +14,7 @@ float mA;
 void setup_Cur_res() 
 {
   int zero = sensor.calibrate();
+  delay(3000);
 }
 
 void Cacu_cur() 
@@ -24,6 +27,7 @@ void Cacu_cur()
   I_TB = tong/100;
   tong = 0;
   mA = I_TB * 1000;
+  Serial.println(abs(mA));
 }
 
 #endif

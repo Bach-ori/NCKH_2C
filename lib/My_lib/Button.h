@@ -4,10 +4,10 @@
 #include <esp_timer.h>
 
 //IO button
-const uint8_t buttonPin_1 = 13; 
-const uint8_t buttonPin_2 = 12; 
-const uint8_t buttonPin_3 = 11; 
-const uint8_t buttonPin_4 = 10; 
+const uint8_t buttonPin_1 = 10; 
+const uint8_t buttonPin_2 = 11; 
+const uint8_t buttonPin_3 = 12; 
+const uint8_t buttonPin_4 = 13; 
 
 //State button
 volatile bool buttonPressed[4] = {false,false,false,false};
@@ -16,13 +16,13 @@ volatile unsigned long lastDebounceTime_1 = 0;
 volatile unsigned long lastDebounceTime_2 = 0;
 volatile unsigned long lastDebounceTime_3 = 0;
 volatile unsigned long lastDebounceTime_4 = 0;
-const unsigned long debounceDelay = 300; // Thời gian chờ để xử lý nhiễu (milliseconds)
+const unsigned long debounceDelay = 300; 
 
-bool check_time = false;
+bool check_time_mode = false;
 
 bool State_bt = false;
 
-void IRAM_ATTR buttonISR_1()   //chuyển chế độ 
+void IRAM_ATTR buttonISR_1()   
 {
   unsigned long currentMillis = esp_timer_get_time();
   if ((currentMillis - lastDebounceTime_1 > debounceDelay) && !State_bt) 
@@ -33,7 +33,7 @@ void IRAM_ATTR buttonISR_1()   //chuyển chế độ
   }
 }
 
-void IRAM_ATTR buttonISR_2()   //chuyển chế độ 
+void IRAM_ATTR buttonISR_2()   
 {
   unsigned long currentMillis = esp_timer_get_time();
   if ((currentMillis - lastDebounceTime_2 > debounceDelay) && !State_bt) 
@@ -44,7 +44,7 @@ void IRAM_ATTR buttonISR_2()   //chuyển chế độ
   }
 }
 
-void IRAM_ATTR buttonISR_3()   //chuyển chế độ 
+void IRAM_ATTR buttonISR_3()  
 {
 unsigned long currentMillis = esp_timer_get_time();
   if ((currentMillis - lastDebounceTime_3 > debounceDelay) && !State_bt) 
@@ -55,7 +55,7 @@ unsigned long currentMillis = esp_timer_get_time();
   }
 }
 
-void IRAM_ATTR buttonISR_4()   //chuyển chế độ 
+void IRAM_ATTR buttonISR_4()  
 {
   unsigned long currentMillis = esp_timer_get_time();
   if ((currentMillis - lastDebounceTime_4 > debounceDelay) && !State_bt) 

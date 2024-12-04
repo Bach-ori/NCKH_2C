@@ -3,7 +3,7 @@
 
 #define BLYNK_TEMPLATE_ID "TMPL6XMCsVVSS"
 #define BLYNK_TEMPLATE_NAME "IoTc2"
-#define BLYNK_AUTH_TOKEN "4Y4aC86_eLFWUdZYwYe7Z7PcxOVFBL9p"
+#define BLYNK_AUTH_TOKEN "EtnFXvbVac0OqzTM2-FpIWwjdkzW2xG_"
 
 #define BLYNK_PRINT Serial
 #include <WiFi.h>
@@ -23,7 +23,6 @@ bool isAnyTrue = false;
 BLYNK_WRITE(BT1)
 {
   int p = param.asInt();
-  Serial.println(p);
   if(p == 1)
   {
     buttonPressed[0] = true;
