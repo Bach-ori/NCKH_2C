@@ -1,20 +1,32 @@
 #ifndef Sensor_H
 #define Sensor_H
 
-const uint8_t trig_1 = 15;     // chân trig của HC-SR04
-const uint8_t echo_1 = 7;     // chân echo của HC-SR04
-const uint8_t trig_2 = 6;     // chân trig của HC-SR04
-const uint8_t echo_2 = 5;     // chân echo của HC-SR04
+const uint8_t trig_1 = 15;     
+const uint8_t echo_1 = 7;     
+const uint8_t trig_2 = 6;   
+const uint8_t echo_2 = 5;     
 const int buzzer = 4;
 int distance_1 = 0;
 int distance_2 = 0;
 unsigned long safety_distance_time = 0;
 bool check_sensor = false;               
 
+void turnOnBuzzer()                   // Turn on relay
+{
+  digitalWrite(buzzer, HIGH);
+}
+
+void turnOffBuzzer()                  // Turn off relay
+{
+  digitalWrite(buzzer, LOW);
+}
+
 void setup_sensor()
 {
-  pinMode(trig_1,OUTPUT);   // chân trig sẽ phát tín hiệu
-  pinMode(echo_1,INPUT);    // chân echo sẽ nhận tín hiệu
+  pinMode(trig_1,OUTPUT);   
+  pinMode(echo_1,INPUT);    
+  pinMode(trig_2,OUTPUT); 
+  pinMode(echo_2,INPUT);   
 }
 
 void sensor_1()
@@ -65,13 +77,13 @@ void Check_distance()
     }
     if(check_sensor && (millis() - safety_distance_time >= 5000))
     {
-      digitalWrite(buzzer,1);
+      turnOnBuzzer();    
     }
   }
   else
   {
     check_sensor = false;
-    digitalWrite(buzzer,0);
+    turnOffBuzzer();
     Serial.println("Safe");
   }
 }
