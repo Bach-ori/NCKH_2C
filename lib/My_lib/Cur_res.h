@@ -27,16 +27,16 @@ void Cacu_cur()
     startMillis_cur = millis();
     again = true;
   }
-   
+  tong = 0;
   if(again && (millis() - startMillis_cur > 500))
   {
+    tong = 0;
     for(int i=0;i<100;i++)
     {
       I = sensor.getCurrentDC();
       tong = tong + I;
     }
     I_TB = tong/100;
-    tong = 0;
     mA = I_TB * 1000;
     Serial.println(abs(mA));
     again = false;

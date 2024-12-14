@@ -14,11 +14,11 @@ void handleButtonPress(float relayTime)
 
   if (check_time_wait && !check_time_mode)  
   {
-    if(abs(mA) > 500)                        //  + if there is current within 5s, the counter will start.
+    if(abs(mA) > threshold_cur)                        //  + if there is current within 5s, the counter will start.
     {
       flag_wait = true;
     }
-    else if(millis() - startMillis >= 1100)  //  + if after 5s there is no current, the counter will stop and off relay
+    else if(millis() - startMillis >= 5000)  //  + if after 5s there is no current, the counter will stop and off relay
     {
       check_time_wait = false;
       turnOffRelay();   // off relay 
@@ -37,7 +37,7 @@ void handleButtonPress(float relayTime)
   { 
     Check_distance();        // check the safe distance
     updateCountdown();       // countdown
-    if (check_time_mode && State_bt && (millis() - startMillis >= (relayTime * 60 * 1000) || abs(mA) < 1100))  //When enough time has been counted or during the countdown process the current is lost
+    if (check_time_mode && State_bt && (millis() - startMillis >= (relayTime * 60 * 1000) || abs(mA) < threshold_cur))  //When enough time has been counted or during the countdown process the current is lost
     {
       active_end();                                                                                          //  stop the countdown
       flag_end();

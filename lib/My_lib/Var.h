@@ -31,6 +31,9 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 7 * 3600, 60000); // GMT+7 (giờ V
 bool check_time_wait = false;
 bool flag_wait = false;      
 
+// current threshold
+const uint16_t threshold_cur = 2000;
+
 //Set time mode
 const float relayTimes[] = {0.2, 0.4, 0.6}; // 30, 60, 90 minutes
 
