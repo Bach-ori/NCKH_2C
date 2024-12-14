@@ -2,8 +2,6 @@
 #define Cur_res_h
 
 #include "ACS712.h"
-#include "HC_SR04.h"
-#include "Button.h"
 ACS712 sensor(ACS712_05B, 14);
 
 float I;

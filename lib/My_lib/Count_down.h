@@ -4,10 +4,11 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include "Blynk.h"
+#include "Var.h"
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-const unsigned long set_time_day = 1 * 60000; // Fixed time point 120 minutes (ms)
+const unsigned long set_time_day = 2 * 60000; // Fixed time point 120 minutes (ms)
 unsigned long countdownStartTime = 0;         // Time begins to count
 unsigned long totalElapsedTime = 0;           // Total time counted
 unsigned long countdownDuration = 0;          // Current countdown time

@@ -2,15 +2,15 @@
 #define Var_H
 
 #include <Arduino.h>
-#include <Arduino.h>
+#include "Var.h"
 #include <WiFi.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h>
 
 #include "Count_down.h"
+#include "Blynk.h"  
 #include "Button.h"
-#include "HC_SR04.h"  
-#include "Blynk.h"    
+#include "HC_SR04.h"     
 #include "Cur_res.h"
 
 //IO relay
@@ -38,6 +38,20 @@ const uint16_t threshold_cur = 2000;
 const float relayTimes[] = {0.2, 0.4, 0.6}; // 30, 60, 90 minutes
 
 //funtion code 
+void check_time_day()                 //After 00:00 every day, set the TV viewing time to 0
+{
+  timeClient.update(); 
+
+  int8_t hours = timeClient.getHours();
+  int8_t minutes = timeClient.getMinutes();
+  int8_t seconds = timeClient.getSeconds();
+
+  if (hours == 0 && minutes == 0 && seconds == 0) 
+  {
+    totalElapsedTime = 0; 
+  }
+}
+
 void turnOnRelay()                    // Turn on relay
 {
   digitalWrite(relay, HIGH);

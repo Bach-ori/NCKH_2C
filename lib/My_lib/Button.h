@@ -2,6 +2,7 @@
 #define Button_H
 
 #include <esp_timer.h>
+#include "Blynk.h"
 
 //IO button
 const uint8_t buttonPin_1 = 10; 
@@ -22,14 +23,22 @@ bool check_time_mode = false;
 
 bool State_bt = false;
 
+void sendToBlynk(int8_t i, const char* notice) 
+{
+  buttonPressed[i] = true;
+  State_bt = true;
+  Blynk.virtualWrite(V5, notice);
+}
+
 void IRAM_ATTR buttonISR_1()   
 {
   unsigned long currentMillis = esp_timer_get_time();
   if ((currentMillis - lastDebounceTime_1 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_1 = currentMillis;
-    buttonPressed[0] = true;
-    State_bt = true;
+    // buttonPressed[0] = true;
+    // State_bt = true;
+    sendToBlynk(0,"Adult Mode");
   }
 }
 
@@ -39,8 +48,9 @@ void IRAM_ATTR buttonISR_2()
   if ((currentMillis - lastDebounceTime_2 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_2 = currentMillis;
-    buttonPressed[1] = true;
-    State_bt = true;
+    // buttonPressed[1] = true;
+    // State_bt = true;
+    sendToBlynk(1,"Child Mode 1");
   }
 }
 
@@ -50,8 +60,9 @@ unsigned long currentMillis = esp_timer_get_time();
   if ((currentMillis - lastDebounceTime_3 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_3 = currentMillis;
-    buttonPressed[2] = true;
-    State_bt = true;
+    // buttonPressed[2] = true;
+    // State_bt = true;
+    sendToBlynk(2,"Child Mode 2");
   }
 }
 
@@ -61,8 +72,9 @@ void IRAM_ATTR buttonISR_4()
   if ((currentMillis - lastDebounceTime_4 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_4 = currentMillis;
-    buttonPressed[3] = true;
-    State_bt = true;
+    // buttonPressed[3] = true;
+    // State_bt = true;
+    sendToBlynk(3,"Child Mode 3");
   }
 }
 

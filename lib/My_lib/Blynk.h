@@ -25,8 +25,9 @@ BLYNK_WRITE(BT1)
   int p = param.asInt();
   if(p == 1)
   {
-    buttonPressed[0] = true;
-    State_bt = true;
+    // buttonPressed[0] = true;
+    // State_bt = true;
+    sendToBlynk(0,"Adult Mode");
   }
 }
 
@@ -35,8 +36,9 @@ BLYNK_WRITE(BT2)
   int p = param.asInt();
   if(p == 1)
   {
-    buttonPressed[1] = true;
-    State_bt = true;
+    // buttonPressed[1] = true;
+    // State_bt = true;
+    sendToBlynk(1,"Child Mode 1");
   }
 }
 
@@ -45,8 +47,9 @@ BLYNK_WRITE(BT3)
   int p = param.asInt();
   if(p == 1)
   {
-    buttonPressed[2] = true;
-    State_bt = true;
+    // buttonPressed[2] = true;
+    // State_bt = true;
+    sendToBlynk(2,"Child Mode 2");
   }
 }
 
@@ -55,8 +58,9 @@ BLYNK_WRITE(BT4)
   int p = param.asInt();
   if(p == 1)
   {
-    buttonPressed[3] = true;
-    State_bt = true;
+    // buttonPressed[3] = true;
+    // State_bt = true;
+    sendToBlynk(3,"Child Mode 3");
   }
 }
 

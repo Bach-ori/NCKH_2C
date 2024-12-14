@@ -47,6 +47,7 @@ void handleButtonPress(float relayTime)
 
 void Program()
 {
+  check_time_day();
   //-------------------------------------------
   if(buttonPressed[0])
   {
@@ -57,12 +58,12 @@ void Program()
   {
     if (buttonPressed[i + 1]) 
     {
-        handleButtonPress(relayTimes[i]);
-        if (!check_time_wait) 
-        {
-          buttonPressed[i + 1] = false;
-        }
-    }
+      handleButtonPress(relayTimes[i]);
+      if (!check_time_wait) 
+      {
+        buttonPressed[i + 1] = false;
+      }
+  }
   }
   Blynk.run(); 
   Cacu_cur();   //Caculator current
@@ -76,6 +77,8 @@ void setup()
 
   pinMode(buzzer,OUTPUT); 
   pinMode(relay,OUTPUT);
+  
+  timeClient.begin();
 
   setup_sensor();
   setup_LCD();     
