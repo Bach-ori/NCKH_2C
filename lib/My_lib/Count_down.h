@@ -85,7 +85,8 @@ void stopCountdown()
     lcd.print("'");
     lcd.print((totalElapsedTime % 60000) / 1000);
     lcd.print("s");
-    
+    Blynk.virtualWrite(V5, "");
+
     if (totalElapsedTime <= set_time_day)
     {
       lcd.setCursor(0, 1);
@@ -147,7 +148,8 @@ void stop_noCur()   // When the 5s waiting time has passed
   lcd.print("'");
   lcd.print((totalElapsedTime % 60000) / 1000);
   lcd.print("s");
-  
+  Blynk.virtualWrite(V5, "");
+
   if (totalElapsedTime <= set_time_day)
   {
     lcd.setCursor(0, 1);
