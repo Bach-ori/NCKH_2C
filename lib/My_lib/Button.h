@@ -36,9 +36,8 @@ void IRAM_ATTR buttonISR_1()
   if ((currentMillis - lastDebounceTime_1 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_1 = currentMillis;
-    // buttonPressed[0] = true;
-    // State_bt = true;
-    sendToBlynk(0,"Adult Mode");
+    buttonPressed[0] = true;
+    State_bt = true;   
   }
 }
 
@@ -48,9 +47,8 @@ void IRAM_ATTR buttonISR_2()
   if ((currentMillis - lastDebounceTime_2 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_2 = currentMillis;
-    // buttonPressed[1] = true;
-    // State_bt = true;
-    sendToBlynk(1,"Child Mode 1");
+    buttonPressed[1] = true;
+    State_bt = true;
   }
 }
 
@@ -60,9 +58,8 @@ unsigned long currentMillis = esp_timer_get_time();
   if ((currentMillis - lastDebounceTime_3 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_3 = currentMillis;
-    // buttonPressed[2] = true;
-    // State_bt = true;
-    sendToBlynk(2,"Child Mode 2");
+    buttonPressed[2] = true;
+    State_bt = true;
   }
 }
 
@@ -72,9 +69,8 @@ void IRAM_ATTR buttonISR_4()
   if ((currentMillis - lastDebounceTime_4 > debounceDelay) && !State_bt) 
   {
     lastDebounceTime_4 = currentMillis;
-    // buttonPressed[3] = true;
-    // State_bt = true;
-    sendToBlynk(3,"Child Mode 3");
+    buttonPressed[3] = true;
+    State_bt = true;
   }
 }
 

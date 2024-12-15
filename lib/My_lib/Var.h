@@ -68,11 +68,13 @@ void toggleRelay()                   // Reverse the relay on/off status when in 
   if (digitalRead(relay) == HIGH) 
   {
     turnOffRelay();
+    Blynk.virtualWrite(V5,"No mode is selected");
     lcd.clear();
   } 
   else 
   {
     turnOnRelay();
+    Blynk.virtualWrite(V5,"Adult Mode");
     lcd.print("Adult mode");
   }
   buttonPressed[0] = false;
